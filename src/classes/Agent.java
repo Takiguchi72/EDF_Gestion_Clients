@@ -16,10 +16,10 @@ public class Agent {
 	 * Initialise un nouvel agent ayant tous ses attributs initialisés avec la valeur `null`
 	 */
 	public Agent() {
-		identifiant = null;
-		motDePasse  = null;
-		nom			= null;
-		prenom		= null;
+		identifiant = "";
+		motDePasse  = "";
+		nom			= "";
+		prenom		= "";
 	}//fin Agent
 
 	/**

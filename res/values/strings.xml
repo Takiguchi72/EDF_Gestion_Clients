@@ -2,15 +2,35 @@
 <resources>
 
     <string name="app_name">EDF Gestion Clients</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
     <string name="title_activity_authentification">Authentification</string>
-    
     <string name="se_connecter">Se Connecter</string>
     <string name="identifiant">Identifiant :</string>
     <string name="mot_de_passe">Mot de passe :</string>
     <string name="annuler">Annuler</string>
     <string name="valider">Valider</string>
+    <string name="releve_compteur">Relevé de compteurs</string>
+    <string name="identite">Identité :</string>
+    <string name="telephone">Téléphone :</string>
+    <string name="adresse">Adresse :</string>
+    <string name="compteur">Compteur :</string>
+    <string name="ancien_releve">Ancien relevé :</string>
+    <string name="a_la_date_du">À la date du :</string>
+    <string name="releve">Relevé :</string>
+    <string name="date">Date :</string>
+    <string name="situation">Situation :</string>
+    <string name="geoloc">Géoloc.</string>
+    <string name="afficher_signature">Afficher la signature</string>
+    <string name="retour">Retour</string>
+    <string name="effacer">Effacer</string>
+
+    <color name="Blanc">#FFFFFF</color>
+
+    <string name="title_activity_menu_principal">Menu principal</string>
+    <string name="title_activity_liste_client">Liste des Clients</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_modification_client">Modification du Client</string>
+    <string name="title_activity_afficher_signature">AfficherSignatureActivity</string>
+    <string name="title_activity_faire_signer">FaireSignerActivity</string>
 
 </resources>

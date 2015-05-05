@@ -76,7 +76,7 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 				
 				//On va retourner les saisies à l'activité principale
 				Intent resultIntent = new Intent();
-				resultIntent.putExtra("identifiant", edtIdentifiant.getText());
+				resultIntent.putExtra("identifiant", edtIdentifiant.getText().toString());
 				resultIntent.putExtra("motDePasse", md5(edtMotDePasse.getText().toString()));
 				setResult(RESULT_OK, resultIntent);
 				//On termine cette activité
@@ -94,13 +94,14 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 	 */
 	private void verifierChampsVides() throws Exception
 	{
-		if(edtIdentifiant.getText().equals(""))
+		String identifiant = edtIdentifiant.getText().toString();
+		if(edtIdentifiant.getText().toString().equals(""))
 		{
 			Log.d("Étape", "~ Champ \"Identifiant\" vide");
 			throw new Exception("Veuillez remplir le champ \"Identifiant\" !", new Throwable("emptyFieldError"));
 		}//fin if
 		
-		if(edtMotDePasse.getText().equals(""))
+		if(edtMotDePasse.getText().toString().equals(""))
 		{
 			Log.d("Étape", "~ Champ \"Mot de passe\" vide");
 			throw new Exception("Veuillez remplir le champ \"Mot de passe\" !", new Throwable("emptyFieldError"));

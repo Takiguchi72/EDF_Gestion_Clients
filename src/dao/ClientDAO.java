@@ -70,8 +70,10 @@ public abstract class ClientDAO implements EventAsyncClient {
 		};
 		
 		requeteHttp.addParam("identifiant", 	 leClientAModifier.getIdentifiant());
-		requeteHttp.addParam("ancienReleve", 	 String.valueOf(leClientAModifier.getAncienReleve()));
-		requeteHttp.addParam("dateAncienReleve", leClientAModifier.getDateAncienReleve());
+		//Ici, on envoi comme "Ancien relevé" la valeur du dernier car le dernier relevé doit remplacer l'ancien !
+		requeteHttp.addParam("ancienReleve", 	 String.valueOf(leClientAModifier.getDernierReleve()));
+		//Idem pour la date de l'ancien releve
+		requeteHttp.addParam("dateAncienReleve", leClientAModifier.getDateDernierReleve());
 		requeteHttp.addParam("situation", 		 String.valueOf(leClientAModifier.getSituation()));
 		requeteHttp.addParam("signatureBase64",  leClientAModifier.getSignatureBase64());
 		

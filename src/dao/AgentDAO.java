@@ -48,15 +48,22 @@ public abstract class AgentDAO implements EventAsyncAgent{
 		Agent agentRecupere = new Agent();
 		
 		try {
+			if(jsonString.substring(0, 6).equals("Erreur"))
+			{
+				throw new Exception();
+			}
+			
 			//On transforme la chaîne encodée en JSON, en un objet JSON
 			JSONObject objJson = new JSONObject(jsonString);
 			
 			agentRecupere = new Agent(  objJson.getString("identifiant"),
-										objJson.getString("motDePasse"),
+										objJson.getString("motdepasse"),
 										objJson.getString("nom"),
 										objJson.getString("prenom"));
 		} catch (JSONException e) {
 			Log.d("Étape","~ Impossible de décoder la chaîne JSON !");
+		} catch (Exception e) {
+			Log.d("Étape","~ Le web service a retourné une erreur !");
 		}//fin catch
 		return agentRecupere;
 	}//fin jsonStringToAgent

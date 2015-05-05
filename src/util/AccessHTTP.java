@@ -57,11 +57,12 @@ public abstract class AccessHTTP extends AsyncTask<String, Integer, Long>{
 			//On transforme la réponse en chaîne de caractères
 			Log.d("Étape", "~ Transformation des valeurs récupérées en une chaîne");
 			ret = EntityUtils.toString(reponse.getEntity());
+			Log.d("Valeur", "ret : " + ret);
 			Log.d("Étape", "~ Transformation des valeurs récupérées réussie !");
 		} catch (ClientProtocolException e) {
 			Log.d("Catch", "Erreur ClientProtocolException : " + e.getMessage());
 		} catch (IOException e) {
-			Log.d("Catch", "Erreur IOException : " + e.getMessage());
+			Log.d("Catch", "Erreur IOException : " + e.getMessage() + " " + e.getCause().toString());
 		}//fin catch
 		return null;
 	}//fin doInBackground

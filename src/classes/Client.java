@@ -176,7 +176,7 @@ public class Client {
 	 * Retourne la date du jour
 	 * @return Date au format "dd/MM/yy" [String]
 	 */
-	private String getDateDuJour()
+	public static String getDateDuJour()
 	{
 		//Récupération de la date du jour
 		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat( "dd/MM/yy" );	//Récupération de la date au format "dd/MM/yy"
