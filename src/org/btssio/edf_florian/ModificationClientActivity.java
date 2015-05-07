@@ -18,21 +18,11 @@ import classes.Client;
 import dao.ClientDAO;
 
 public class ModificationClientActivity extends Activity implements OnClickListener{
-	protected TextView txvIdentifiant;
-	protected TextView txvIdentite;
-	protected TextView txvTelephone;
-	protected TextView txvAdresse;
-	protected TextView txvCodePostal;
-	protected TextView txvVille;
-	protected TextView txvCompteur;
-	protected TextView txvAncienReleve;
-	protected TextView txvDateAncienReleve;
-	protected EditText edtReleve;
-	protected EditText edtSituation;
-	protected Button btnAfficherSignature;
-	protected Button btnGeoloc;
-	protected Button btnValider;
-	protected Button btnAnnuler;
+	protected TextView  txvIdentifiant, txvIdentite, 	txvTelephone,
+						txvAdresse, 	txvCodePostal, 	txvVille, 
+						txvCompteur, 	txvAncienReleve,txvDateAncienReleve;
+	protected EditText edtReleve, edtSituation;
+	protected Button btnAfficherSignature, btnGeoloc, btnValider, btnAnnuler;
 	protected Client clientActuel;
 	
 	@Override
@@ -98,7 +88,9 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 			 * ~~~~~~~~~~~~~~ */
 			case R.id.modifCli_btnGeoloc:
 				Log.d("Étape", "~ Clic sur le bouton Géoloc.");
-				
+				Intent intentGeolocalisation = new Intent(this, GeolocalisationActivity.class);
+				intentGeolocalisation.putExtra("adresseClient", clientActuel.getAdresse() + "," + clientActuel.getCodePostal() + " " + clientActuel.getVille() + " France");
+				startActivity(intentGeolocalisation);
 				break;
 			/* ~~~~~~~~~~~~~~ *
 			 * Bouton VALIDER *

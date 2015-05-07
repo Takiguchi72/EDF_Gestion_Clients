@@ -32,5 +32,6 @@
     <string name="title_activity_modification_client">Modification du Client</string>
     <string name="title_activity_afficher_signature">AfficherSignatureActivity</string>
     <string name="title_activity_faire_signer">FaireSignerActivity</string>
+    <string name="title_activity_geolocalisation">GeolocalisationActivity</string>
 
 </resources>
