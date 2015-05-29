@@ -17,7 +17,10 @@ import android.widget.Toast;
 import classes.Client;
 import dao.ClientDAO;
 
-public class ModificationClientActivity extends Activity implements OnClickListener{
+public class ModificationClientActivity extends Activity implements OnClickListener {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	protected TextView  txvIdentifiant, txvIdentite, 	txvTelephone,
 						txvAdresse, 	txvCodePostal, 	txvVille, 
 						txvCompteur, 	txvAncienReleve,txvDateAncienReleve;
@@ -25,6 +28,12 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 	protected Button btnAfficherSignature, btnGeoloc, btnValider, btnAnnuler;
 	protected Client clientActuel;
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,6 +60,10 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 		clientAccess.getClientById(this.getIntent().getExtras().getString("identifiant"));
 	}//fin onCreate
 	
+	/**
+	 * Initialise le menu de l'activité
+	 * @param Le menu permettant d'initialiser celui de l'activité [Menu]
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -58,6 +71,10 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 		return true;
 	}
 	
+	/**
+	 * Gère les clics sur les différents éléments du menu
+	 * @param L'élément du menu sur lequel l'utilisateur a cliqué [MenuItem]
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -70,6 +87,10 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Gère les clics sur les différents boutons de l'application
+	 * @param L'élément sur lequel l'utilisateur a cliqué [View]
+	 */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId())
@@ -109,6 +130,9 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 		}//fin switch
 	}//fin onClick
 	
+	/**
+	 * Enregistre les modifications apportées au client après que l'agent l'ait fait signer (donc au retour de l'activité "Faire signer")
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -118,13 +142,14 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 			clientActuel.setSignatureBase64(data.getExtras().getString("signatureBase64"));
 			
 			ClientDAO clientAccess = new ClientDAO() {
-				
+				/**
+				 * Termine l'activité "Modification client" après avoir fait appel au web service
+				 */
 				@Override
 				public void onTacheTerminee(Client resultat) {
 					Toast.makeText(ModificationClientActivity.this, "Modifications enregistrées !", Toast.LENGTH_SHORT).show();
 					ModificationClientActivity.this.finish();
-				}
-				
+				}//fin onTacheTerminee
 				@Override
 				public void onTacheTerminee(ArrayList<Client> resultat) {
 				}
@@ -177,7 +202,7 @@ public class ModificationClientActivity extends Activity implements OnClickListe
 		
 		// /!\ Lorsque la signature est vide en base de données, la méthode getSignatureBase64() retourne la chaine "null" et non la valeur `null`
 		// D'où le test qui suit
-		Log.d("Valeur", "Signature : " + clientActuel.getSignatureBase64() + " ; " + clientActuel.getSignatureBase64().getClass());
+		//Log.d("Valeur", "Signature : " + clientActuel.getSignatureBase64() + " ; " + clientActuel.getSignatureBase64().getClass());
 		Log.d("Valeur", "Taille signature : " + clientActuel.getSignatureBase64().toString().length() + " ; " + clientActuel.getSignatureBase64().equals("null"));
 		if(clientActuel.getSignatureBase64().equals("null"))
 		{

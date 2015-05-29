@@ -14,18 +14,30 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public abstract class AccessHTTP extends AsyncTask<String, Integer, Long>{
+public abstract class AccessHTTP extends AsyncTask<String, Integer, Long> {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	protected String ret = "";
 	private ArrayList<NameValuePair> parametres;
 	
+	/* *****************************
+	 * 	C O N S T R U C T E U R S  *
+	 *******************************/
+	/**
+	 * Initialise l'AccesHTTP
+	 */
 	public AccessHTTP() {
 		parametres = new ArrayList<NameValuePair>();
 	}//fin AccessHttp
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
 	/**
 	 * Ajoute des paramètres de connexion
-	 * @param Le nom du paramètre [String]
-	 * @param La valeur du paramètre [String]
+	 * @param Le nom du nouveau paramètre [String]
+	 * @param La valeur du nouveau paramètre [String]
 	 */
 	public void addParam(String nom, String valeur)
 	{
@@ -33,7 +45,7 @@ public abstract class AccessHTTP extends AsyncTask<String, Integer, Long>{
 	}//fin addParam
 	
 	/**
-	 * Établit la connexion au webService correspondant au paramètre
+	 * Établit la connexion au webService correspondant au paramètres
 	 */
 	@Override
 	protected Long doInBackground(String... params) {

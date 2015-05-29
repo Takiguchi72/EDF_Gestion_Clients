@@ -18,10 +18,19 @@ import classes.ClientAdapter;
 import dao.ClientDAO;
 
 public class ListeClientActivity extends Activity implements OnItemClickListener {
+	/* **********************************
+	 * A T T R I B U T S
+	 * ******************************* */
 	protected ListView listView;
 	protected List<Client> listeClients;
 	protected ClientDAO clientAccess;
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,13 +97,16 @@ public class ListeClientActivity extends Activity implements OnItemClickListener
 		return super.onOptionsItemSelected(item);
 	}//fin onOptionsItemSelected
 
+	/**
+	 * Réinitialise la liste de clients à chaque retour d'activité
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		Log.d("Étape", "~ Réinitialisation de la liste des clients et la vue correspondante");
 		listeClients.clear();
 		clientAccess.getClients();
-	}
+	}//fin onActivityResult
 	
 	/**
 	 * Gère le clic sur les clients

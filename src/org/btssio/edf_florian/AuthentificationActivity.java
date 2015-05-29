@@ -1,6 +1,6 @@
 package org.btssio.edf_florian;
 
-import classes.Agent;
+import static util.FonctionString.md5;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,19 +12,26 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import static util.FonctionString.md5;;
 
-public class AuthentificationActivity extends Activity implements OnClickListener{
-	private EditText edtIdentifiant;
-	private EditText edtMotDePasse;
-	private Button btnAnnuler;
-	private Button btnValider;
+public class AuthentificationActivity extends Activity implements OnClickListener {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
+	protected EditText edtIdentifiant, edtMotDePasse;
+	protected Button btnAnnuler, btnValider;
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_authentification);
 		
+		//On initialise les composants graphiques de l'activité
 		edtIdentifiant = (EditText) this.findViewById(R.id.authentificationAct_edtIdentifiant);
 		edtMotDePasse  = (EditText) this.findViewById(R.id.authentificationAct_edtPasswd);
 	
@@ -35,6 +42,10 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 		btnValider.setOnClickListener(this);
 	}//fin onCreate
 
+	/**
+	 * Initialise le menu de l'activité
+	 * @param Le menu permettant d'initialiser celui de l'activité [Menu]
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -42,6 +53,10 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 		return true;
 	}
 
+	/**
+	 * Gère les clics sur les différents éléments du menu
+	 * @param L'élément du menu sur lequel l'utilisateur a cliqué [MenuItem]
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -54,37 +69,47 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Gère les clics sur les différents boutons de l'application
+	 * @param L'élément sur lequel l'utilisateur a cliqué [View]
+	 */
 	@Override
 	public void onClick(View v) {
 		Log.d("Étape", "~ Click détecté...");
 		switch (v.getId())
 		{
-		case R.id.authentificationAct_btnAnnuler:
-			Log.d("Étape", "~ Clic sur le bouton Annuler");
-			Intent returnIntent = new Intent();
-			
-			setResult(RESULT_CANCELED, returnIntent);
-			
-			finish();
-			break;
-		case R.id.authentificationAct_btnValider:
-			Log.d("Étape", "~ Clic sur le bouton Valider");
-			try {
-				Log.d("Étape", "~ Vérification des zones de saisies");
-				//On vérifie que les champs ne sont pas vides
-				verifierChampsVides();
+			/* ~~~~~~~~~~~~~~ *
+			 * Bouton ANNULER *
+			 * ~~~~~~~~~~~~~~ */
+			case R.id.authentificationAct_btnAnnuler:
+				Log.d("Étape", "~ Clic sur le bouton Annuler");
 				
-				//On va retourner les saisies à l'activité principale
-				Intent resultIntent = new Intent();
-				resultIntent.putExtra("identifiant", edtIdentifiant.getText().toString());
-				resultIntent.putExtra("motDePasse", md5(edtMotDePasse.getText().toString()));
-				setResult(RESULT_OK, resultIntent);
-				//On termine cette activité
+				//On va retourner la valeur RESULT_CANCELED à l'activité appelante
+				Intent returnIntent = new Intent();
+				setResult(RESULT_CANCELED, returnIntent);
 				finish();
-			} catch (Exception e) {
-				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-			}//fin catch
-			break;
+				break;
+			/* ~~~~~~~~~~~~~~ *
+			 * Bouton VALIDER *
+			 * ~~~~~~~~~~~~~~ */
+			case R.id.authentificationAct_btnValider:
+				Log.d("Étape", "~ Clic sur le bouton Valider");
+				try {
+					Log.d("Étape", "~ Vérification des zones de saisies");
+					//On vérifie que les champs ne sont pas vides
+					verifierChampsVides();
+					
+					//On va retourner les saisies à l'activité appelante
+					Intent resultIntent = new Intent();
+					resultIntent.putExtra("identifiant", edtIdentifiant.getText().toString());
+					resultIntent.putExtra("motDePasse", md5(edtMotDePasse.getText().toString()));
+					setResult(RESULT_OK, resultIntent);
+					//On termine cette activité
+					finish();
+				} catch (Exception e) {
+					Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+				}//fin catch
+				break;
 		}//fin switch
 	}//fin onClick
 	
@@ -94,13 +119,14 @@ public class AuthentificationActivity extends Activity implements OnClickListene
 	 */
 	private void verifierChampsVides() throws Exception
 	{
-		String identifiant = edtIdentifiant.getText().toString();
+		//EditText IDENTIFIANT
 		if(edtIdentifiant.getText().toString().equals(""))
 		{
 			Log.d("Étape", "~ Champ \"Identifiant\" vide");
 			throw new Exception("Veuillez remplir le champ \"Identifiant\" !", new Throwable("emptyFieldError"));
 		}//fin if
 		
+		//EditText MOTDEPASSE
 		if(edtMotDePasse.getText().toString().equals(""))
 		{
 			Log.d("Étape", "~ Champ \"Mot de passe\" vide");

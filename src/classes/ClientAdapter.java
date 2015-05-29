@@ -11,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class ClientAdapter extends BaseAdapter {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	private List<Client> listeClients;
 	private LayoutInflater layoutInflater;
 	private class ViewHolder {
@@ -21,23 +24,33 @@ public class ClientAdapter extends BaseAdapter {
 		TextView textViewAdresse;
 		TextView textViewCodePostal;
 		TextView textViewVille;
-	}
+	}//fin ViewHolder
 	
-	public void add(Client unClient)
-	{
-		listeClients.add(unClient);
-	}
-	
+	/* *****************************
+	 * 	C O N S T R U C T E U R S  *
+	 *******************************/
 	/**
 	 * Instancie un objet de la classe ClientAdapter
-	 * @param ctx
-	 * @param listeClients
+	 * @param ctx [Contexte]
+	 * @param La liste de clients [List<Client>]
 	 */
 	public ClientAdapter(Context ctx, List<Client> listeClients) {
 		layoutInflater  	= LayoutInflater.from(ctx);
 		this.listeClients	= listeClients;
-	}
+	}//fin ClientAdapter
 
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Ajoute un client à la liste
+	 * @param Le nouveau client à ajouter [Client]
+	 */
+	public void add(Client unClient)
+	{
+		listeClients.add(unClient);
+	}//fin add
+	
 	/**
 	 * Retourne le nombre de clients dans la liste
 	 * @return Taille de la liste [Integer]
@@ -61,9 +74,16 @@ public class ClientAdapter extends BaseAdapter {
 		return arg0;
 	}
 
+	/**
+	 * Initialise le viewHolder à partir du client à la position correspondant au 1er paramètre, dans la liste de clients
+	 * @param La position du client dans la liste [Integer]
+	 * @param L'élément graphique qui va contenir les informations du client [View]
+	 * @return La vue initialisée à partir des données du client [View]
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
+		//Si la vue passée en paramètres n'est pas instanciée, on va l'instancier à partir du fichier xml "vue_client_de_liste_clients"
 		if (convertView == null)
 		{
 			holder = new ViewHolder();
@@ -81,7 +101,7 @@ public class ClientAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}//fin else
 		
-		//On remplit les TextView avec les données de la liste de Clients
+		//On remplit les TextView avec les données du client à la position correspondant au 1er paramètre, dans la liste de clients
 		holder.textViewIdentifiant	.setText(listeClients.get(position).getIdentifiant());
 		holder.textViewNom			.setText(listeClients.get(position).getNom());
 		holder.textViewPrenom		.setText(listeClients.get(position).getPrenom());
@@ -91,6 +111,7 @@ public class ClientAdapter extends BaseAdapter {
 		holder.textViewVille		.setText(listeClients.get(position).getVille());
 		convertView.setTag(holder);
 		
+		//On va colorer le fond de la vue en fonction de la position pour faire une vue grise sur deux
 		if(position % 2 == 0){
 			convertView.setBackgroundColor(Color.rgb(238, 233, 233));
 		}//fin if

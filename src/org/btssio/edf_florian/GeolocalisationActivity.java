@@ -3,7 +3,6 @@ package org.btssio.edf_florian;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.location.Address;
 import android.location.Criteria;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -25,7 +23,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class GeolocalisationActivity extends Activity implements LocationListener{
+public class GeolocalisationActivity extends Activity implements LocationListener {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	protected GoogleMap googleMap;
 	protected LocationManager locationManager;
 	protected String provider, adresseClient;
@@ -34,6 +35,12 @@ public class GeolocalisationActivity extends Activity implements LocationListene
 						reussiGeolocalisationClient = false;
 	protected LatLngBounds.Builder builder = new LatLngBounds.Builder();
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,8 +57,12 @@ public class GeolocalisationActivity extends Activity implements LocationListene
 		
 		//On affiche la carte avec le pin correspondant à la posititon de l'agent et le pin du client
 		afficheCarte();
-	}
+	}//fin onCreate
 
+	/**
+	 * Initialise le menu de l'activité
+	 * @param Le menu permettant d'initialiser celui de l'activité [Menu]
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -59,6 +70,10 @@ public class GeolocalisationActivity extends Activity implements LocationListene
 		return true;
 	}
 
+	/**
+	 * Gère les clics sur les différents éléments du menu
+	 * @param L'élément du menu sur lequel l'utilisateur a cliqué [MenuItem]
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will

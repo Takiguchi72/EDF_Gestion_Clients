@@ -10,14 +10,20 @@ import android.util.Log;
 import classes.Client;
 
 public abstract class ClientDAO implements EventAsyncClient {
+	/* *****************************
+	 * 	C O N S T R U C T E U R S  *
+	 *******************************/
 	/**
 	 * Constructeur par défaut
 	 */
 	public ClientDAO() {
 	}//fin ClientDAO
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
 	/**
-	 * Récupère tous les clients depuis la bdd
+	 * Récupère tous les clients de la bdd
 	 */
 	public void getClients()
 	{
@@ -29,39 +35,51 @@ public abstract class ClientDAO implements EventAsyncClient {
 			protected void onPostExecute(Long result)
 			{
 				Log.d("Étape", "~ onPostExecute ClientDAO");
+				//Une fois que le web service a retourné des valeurs, on va les convertir en un objet de classe List<Client>
 				onTacheTerminee(jsonStringToClientArrayList(this.ret));
 			}//fin onPostExecute
 		};
+		
+		Log.d("Étape", "~ Appel au web service retournant tous les clients");
+		//On fait appel au web service retournant tous les clients
 		objAsyncTask.execute("http://" + DonneesConnexion.getServeur() + DonneesConnexion.getChemin() + "getTousLesClients.php");
 	}//fin getClients
 	
 	/**
-	 * Récupère le client correspondant à l'identifiant passé en paramètre
+	 * Récupère le client correspondant à l'identifiant passé en paramètres
 	 * @param L'identifiant du client [Integer]
 	 */
 	public void getClientById(String identifiant)
 	{
 		AccessHTTP requeteHttp = new AccessHTTP(){
 			/**
-			 * Convertit le client retourné par le webService qui est en JSON en objet Client après l'exécution du thread
+			 * Convertit le client retourné par le webService (qui est sous forme de chaîne JSON) en un objet Client après l'exécution du thread
 			 */
 			@Override
 			protected void onPostExecute(Long result) {
 				Log.d("log","onPostExecute ClientDAO");
 				onTacheTerminee(jsonStringToClient(this.ret));
 			}
-		}; 
+		};
+		
+		Log.d("Étape", "~ Ajout de paramètres à la requête destinée au web service");
+		//On renseigne les paramètres qui seront envoyés au web service
 		requeteHttp.addParam("identifiant", identifiant);
+		
+		Log.d("Étape", "~ Envoi de la requête au web service retournant le client correspondant à l'identifiant envoyé");
 		requeteHttp.execute("http://" + DonneesConnexion.getServeur() + DonneesConnexion.getChemin() + "getClientById.php");
 	}//fin getClientById
 	
 	/**
 	 * Enregistre les modifications apportées au client (passé en paramètre) dans la bdd
-	 * @param Le client à modifier [Client]
+	 * @param Le client contenant les modifications [Client]
 	 */
 	public void setClient(Client leClientAModifier)
 	{
 		AccessHTTP requeteHttp = new AccessHTTP() {
+			/**
+			 * Convertit le client retourné par le webService (qui est sous forme de chaîne JSON) en un objet Client après l'exécution du thread
+			 */
 			@Override
 			protected void onPostExecute(Long result) {
 				Log.d("log","onPostExecute ClientDAO");
@@ -69,14 +87,17 @@ public abstract class ClientDAO implements EventAsyncClient {
 			}//fin onPostExecute
 		};
 		
+		Log.d("Étape", "~ Ajout de paramètres à la requête destinée au web service");
+		//On renseigne les paramètres qui seront envoyés au web service
 		requeteHttp.addParam("identifiant", 	 leClientAModifier.getIdentifiant());
-		//Ici, on envoi comme "Ancien relevé" la valeur du dernier car le dernier relevé doit remplacer l'ancien !
+			// /!\ Ici, on envoi comme "Ancien relevé" la valeur du dernier car le dernier relevé doit remplacer l'ancien !
 		requeteHttp.addParam("ancienReleve", 	 String.valueOf(leClientAModifier.getDernierReleve()));
-		//Idem pour la date de l'ancien releve
+			// /!\ Idem pour la date de l'ancien releve
 		requeteHttp.addParam("dateAncienReleve", leClientAModifier.getDateDernierReleve());
 		requeteHttp.addParam("situation", 		 String.valueOf(leClientAModifier.getSituation()));
 		requeteHttp.addParam("signatureBase64",  leClientAModifier.getSignatureBase64());
 		
+		Log.d("Étape", "~ Envoi de la requête au web service destiné à modifier des clients");
 		requeteHttp.execute("http://" + DonneesConnexion.getServeur() + DonneesConnexion.getChemin() + "setClient.php");
 	}//fin setClient
 	

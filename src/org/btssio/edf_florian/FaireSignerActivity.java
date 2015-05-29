@@ -1,12 +1,9 @@
 package org.btssio.edf_florian;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
-import classes.Client;
-import dao.ClientDAO;
-import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,14 +24,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class FaireSignerActivity extends Activity implements OnClickListener{
+public class FaireSignerActivity extends Activity implements OnClickListener {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	protected LinearLayout linearLayout;
-	protected Button btnAnnuler;
-	protected Button btnEffacer;
-	protected Button btnValider;
+	protected Button btnAnnuler, btnEffacer, btnValider;
 	protected Signature signature;
-	
 	public class Signature extends View {
+		// variables nécessaire au dessin
 		private Paint paint = new Paint();
 		private Path path = new Path();// collection de l'ensemble des points sauvegardés lors des mouvements du doigt
 		private Canvas canvas;
@@ -42,8 +40,8 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 		private String lig1, lig2;
 
 		/**
-		 * Constructeur par défaut
-		 * @param context
+		 * Initialise la signature en fonction des paramètres
+		 * @param L'activité utilisant la signature [Context]
 		 * @param attrs
 		 * @param Le récapitulatif du client. Ex: "Client : cli1 Nom Prénom" [String]
 		 * @param Le récapitulatif du relevé du client. Ex: "Compteur n°0123456789 - Relevé : 1234.56 - Date : 01/02/03" [String]
@@ -77,7 +75,7 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 		
 		/**
 		 * Gère les évènements générés par le doigt sur la zone de dessin
-		 * @param L'évènement capté
+		 * @param L'évènement capté [MotionEvent]
 		 */
 		@Override
 		public boolean onTouchEvent(MotionEvent event) {
@@ -148,20 +146,25 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 				Toast.makeText(getApplicationContext(), "Erreur Sauvegarde", Toast.LENGTH_LONG).show();
 				vretour = null;
 			}//fin catch
-			
-			Log.d("Signature", vretour);
 			return vretour;
 		}//fin save
 	}//fin Signature
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_faire_signer);
 		
+		//On récupère les valeurs envoyées par l'activité appelante
 		String detailClient   = this.getIntent().getExtras().getString("detailClient");
 		String detailCompteur = this.getIntent().getExtras().getString("detailCompteur");
-		
+
 		Log.d("Étape", "~ Création de la signature");
 		signature = new Signature(this, null, detailClient, detailCompteur);
 
@@ -184,6 +187,10 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 		linearLayout.addView(signature, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	}//fin onCreate
 
+	/**
+	 * Initialise le menu de l'activité
+	 * @param Le menu permettant d'initialiser celui de l'activité [Menu]
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -191,6 +198,10 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 		return true;
 	}
 
+	/**
+	 * Gère les clics sur les différents éléments du menu
+	 * @param L'élément du menu sur lequel l'utilisateur a cliqué [MenuItem]
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -203,6 +214,10 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Gère les clics sur les différents boutons de l'application
+	 * @param L'élément sur lequel l'utilisateur a cliqué [View]
+	 */
 	@Override
 	public void onClick(View v) {
 		Log.d("Étape", "~ Click sur un bouton");
@@ -220,7 +235,6 @@ public class FaireSignerActivity extends Activity implements OnClickListener{
 				Log.d("Étape", "~ Click sur Valider détecté");
 				//On retourne la signature qui a été tracée par le client, à l'activité ModificationClient
 				Intent returnIntent = new Intent();
-				
 				returnIntent.putExtra("signatureBase64", signature.save());
 				//On indique à l'activité appelante que l'activité s'est effectuée correctement
 				setResult(RESULT_OK,returnIntent);

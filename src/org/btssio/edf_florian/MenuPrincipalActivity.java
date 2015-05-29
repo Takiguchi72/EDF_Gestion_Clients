@@ -11,13 +11,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import classes.Agent;
 
-public class MenuPrincipalActivity extends Activity implements OnClickListener{
+public class MenuPrincipalActivity extends Activity implements OnClickListener {
+	/* *********************
+	 * 	A T T R I B U T S  *
+	 ***********************/
 	protected Agent agentConnecte;
 	protected TextView txvIdentifiant;
 	protected TextView txvNom;
 	protected TextView txvPrenom;
 	protected ImageButton imgBtnClients;
 	
+	/* *******************
+	 *  M E T H O D E S  *
+	 *********************/
+	/**
+	 * Initialise l'activité
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +52,10 @@ public class MenuPrincipalActivity extends Activity implements OnClickListener{
 		imgBtnClients.setOnClickListener(this);
 	}//fin onCreate
 
+	/**
+	 * Initialise le menu de l'activité
+	 * @param Le menu permettant d'initialiser celui de l'activité [Menu]
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -50,6 +63,10 @@ public class MenuPrincipalActivity extends Activity implements OnClickListener{
 		return true;
 	}//fin onCreateOptionsMenu
 
+	/**
+	 * Gère les clics sur les différents éléments du menu
+	 * @param L'élément du menu sur lequel l'utilisateur a cliqué [MenuItem]
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -70,10 +87,13 @@ public class MenuPrincipalActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId())
 		{
-		case R.id.menuPrincAct_imgBtnClients:
-			Intent intentListeClients = new Intent(this, ListeClientActivity.class);
-			startActivity(intentListeClients);
-			break;
+			/* ~~~~~~~~~~~~ *
+			 * Image CLIENT *
+			 * ~~~~~~~~~~~~ */
+			case R.id.menuPrincAct_imgBtnClients:
+				Intent intentListeClients = new Intent(this, ListeClientActivity.class);
+				startActivity(intentListeClients);
+				break;
 		}//fin switch
 	}//fin onClick
 }//fin classe
